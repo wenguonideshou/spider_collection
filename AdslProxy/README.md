@@ -86,19 +86,11 @@ sudo apt-get install -y python3 python3-pip
 pip3 install redis tornado requests
 ```
 
-### 5.Clone项目
-
-```
-git clone https://github.com/Germey/ADSLProxy.git
-```
-
-### 6.Redis
+### 5.Redis
 
 Redis数据库可以配置在某台固定IP的VPS，也可以购买Redis独立服务，如阿里云、腾讯云等。
 
 ### 7.修改配置
-
-配置文件是 adslproxy/config.py
 
 根据注释修改配置文件，主要修改要点如下：
 
@@ -145,104 +137,6 @@ python3 run.py
 ```
 (python3 run.py > /dev/null &)
 ```
-
-## 程序使用
-
-### 1.安装ADSLProxy
-
-```
-pip3 install adslproxy
-```
-
-### 2.Redis直连使用
-
-```python
-from adslproxy import RedisClient
-
-client = RedisClient(host='', password='')
-random = client.random()
-all = client.all()
-names = client.names()
-proxies = client.proxies()
-count = client.count()
-
-print('RANDOM:', random)
-print('ALL:', all)
-print('NAMES:', names)
-print('PROXIES:', proxies)
-print('COUNT:', count)
-```
-
-参数说明如下：
-
-> #### host
->
-> 即Redis数据库IP，默认localhost
->
-> #### password
->
-> 即Redis数据库密码，默认None
->
-> #### port
->
-> 即Redis数据库端口，默认6379
->
-> #### proxy_key
->
-> 即Redis数据库代理键名开头，默认adsl
-
-方法说明如下：
-
-> #### random()
->
-> 从Redis代理池取随机代理
->
-> #### all()
->
-> 从Redis代理池取所有可用代理，返回list
->
-> #### names()
->
-> 从Redis代理池取主机列表
->
-> #### proxies()
->
-> 从Redis代理池取代理列表
->
-> #### count()
->
-> 从Redis代理池取所有可用主机数量
-
-运行结果：
-
-```python
-RANDOM: 115.221.121.52:8888
-ALL: {'adsl2': '118.119.111.172:8888', 'adsl3': '115.221.121.52:8888', 'adsl4': '58.22.111.23:8888', 'adsl1': '182.147.200.60:8888'}
-NAMES: ['adsl2', 'adsl3', 'adsl4', 'adsl1']
-PROXIES: ['118.119.111.172:8888', '115.221.121.52:8888', '58.22.111.23:8888', '182.147.200.60:8888']
-COUNT: 4
-```
-
-代码使用：
-
-```python
-import requests
-proxies  = {
-  'http': 'http://' + client.random()
-}
-r = requests.get('http://httpbin.org/get', proxies=proxies)
-print(r.text)
-```
-
-### 3.API使用
-
-```python
-from adslproxy import RedisClient, server
-client = RedisClient(host='', password='', port='')
-server(client, port=8000)
-```
-
-运行后会在8000端口监听，访问API即可取到相应代理
 
 获取代理：
 
