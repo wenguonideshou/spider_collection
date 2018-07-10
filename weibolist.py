@@ -3,6 +3,7 @@ from urllib.parse import urlencode
 from pyquery import PyQuery as pq
 from pymongo import MongoClient
 
+
 base_url = 'https://m.weibo.cn/api/container/getIndex?'
 headers = {
     'Host': 'm.weibo.cn',
